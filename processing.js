@@ -16836,31 +16836,23 @@
         var xmlDoc;
 
         try {
-          xmlDoc = document.implementation.createDocument("", "", null);
-        }
-        catch(e_fx_op) {
-          Processing.debug(e_fx_op.message);
-          return;
-        }
-
-        try {
-          xmlDoc.async = false;
-          xmlDoc.load(url);
-          parseSVGFont(xmlDoc.getElementsByTagName("svg")[0]);
-        }
-        catch(e_sf_ch) {
-          // Google Chrome, Safari etc.
-          Processing.debug(e_sf_ch);
-          try {
+          xmlDoc = document.implementation.createDocument("", "", null);      
+          if ( xmlDoc.load ) {
+		    xmlDoc.async = false;
+		    xmlDoc.load(url);
+			parseSVGFont(xmlDoc.getElementsByTagName("svg")[0]);
+		  }
+		  else {
+		  // Google Chrome, Safari etc.
             var xmlhttp = new window.XMLHttpRequest();
             xmlhttp.open("GET", url, false);
             xmlhttp.send(null);
             parseSVGFont(xmlhttp.responseXML.documentElement);
           }
-          catch(e) {
-            Processing.debug(e_sf_ch);
-          }
-        }
+		}
+        catch(error) {
+          Processing.debug(error);
+        }  
       };
 
       // Create a new object in glyphTable to store this font
