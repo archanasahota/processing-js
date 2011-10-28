@@ -16835,13 +16835,13 @@
       var loadXML = function() {
         var xmlDoc;
 
-        try {
+          try {
           xmlDoc = document.implementation.createDocument("", "", null);      
           if ( xmlDoc.load ) {
-		    xmlDoc.async = false;
-		    xmlDoc.load(url);
-			parseSVGFont(xmlDoc.getElementsByTagName("svg")[0]);
-		  }
+            xmlDoc.async = false;
+            xmlDoc.load(url);
+            parseSVGFont(xmlDoc.getElementsByTagName("svg")[0]);
+          }
 		  else {
 		  // Google Chrome, Safari etc.
             var xmlhttp = new window.XMLHttpRequest();
