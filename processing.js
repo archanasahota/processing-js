@@ -16842,14 +16842,14 @@
             xmlDoc.load(url);
             parseSVGFont(xmlDoc.getElementsByTagName("svg")[0]);
           }
-		  else {
-		  // Google Chrome, Safari etc.
+          else {
+          // Google Chrome, Safari etc.
             var xmlhttp = new window.XMLHttpRequest();
             xmlhttp.open("GET", url, false);
             xmlhttp.send(null);
             parseSVGFont(xmlhttp.responseXML.documentElement);
           }
-		}
+        }
         catch(error) {
           Processing.debug(error);
         }  
