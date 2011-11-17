@@ -5001,6 +5001,33 @@
       getFloat: function(attributeName) {
         return this.getFloatAttribute(attributeName);
       },
+	  /**
+       * @member XMLElement
+       * The getDoubleAttribute() function returns the double attribute of the element.
+       * If the <b>defaultValue</b> parameter is used and the attribute doesn't exist, the <b>defaultValue</b> value is returned.
+       * When calling the function without the <b>defaultValue</b> parameter, if the attribute doesn't exist, the value 0 is returned.
+       *
+       * @param name         the name of the attribute
+       * @param defaultValue value returned if the attribute is not found
+       *
+       * @return {double} the value, or defaultValue if the attribute does not exist
+       */
+      getDoubleAttribute: function() {
+        if (arguments.length === 1 ) {
+          return parseFloat(this.getAttribute(arguments[0], 0));
+        }
+        if (arguments.length === 2 ){
+          return this.getAttribute(arguments[0], arguments[1]);
+        }
+        return this.getAttribute(arguments[0], arguments[1],arguments[2]);
+      },
+      /**
+       * Processing 1.5 XML API wrapper for the generic double
+       * attribute getter. This may only take one argument.
+       */
+      getDouble: function(attributeName) {
+        return this.getDoubleAttribute(attributeName);
+      },
       /**
        * @member XMLElement
        * The getIntAttribute() function returns the integer attribute of the element.
@@ -5491,7 +5518,7 @@
     PMatrix2D.prototype = {
       /**
        * @member PMatrix2D
-       * The set() function sets the matrix elements. The function accepts either another PMatrix2D, an array of elements, or a list of six floats.
+       * The set() function sets the matrix elements. The function accepts either another PMatrix2D, an array of elements, or a list of six s.
        *
        * @param {PMatrix2D} matrix    the matrix to set this matrix to
        * @param {float[]} elements    an array of elements to set this matrix to
