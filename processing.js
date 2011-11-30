@@ -1,4 +1,3 @@
-
 (function(window, document, Math, undef) {
 
   var nop = function(){};
@@ -5518,7 +5517,7 @@
     PMatrix2D.prototype = {
       /**
        * @member PMatrix2D
-       * The set() function sets the matrix elements. The function accepts either another PMatrix2D, an array of elements, or a list of six s.
+       * The set() function sets the matrix elements. The function accepts either another PMatrix2D, an array of elements, or a list of six floats.
        *
        * @param {PMatrix2D} matrix    the matrix to set this matrix to
        * @param {float[]} elements    an array of elements to set this matrix to
