@@ -1,3 +1,4 @@
+
 (function(window, document, Math, undef) {
 
   var nop = function(){};
@@ -5000,7 +5001,7 @@
       getFloat: function(attributeName) {
         return this.getFloatAttribute(attributeName);
       },
-	  /**
+	/**
        * @member XMLElement
        * The getDoubleAttribute() function returns the double attribute of the element.
        * If the <b>defaultValue</b> parameter is used and the attribute doesn't exist, the <b>defaultValue</b> value is returned.
