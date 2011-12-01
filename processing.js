@@ -3025,10 +3025,10 @@
        * @member PShape
        * The drawPrimitive() function draws SVG document shape elements. These can be point, line, triangle, quad, rect, ellipse, arc, box, or sphere.
        */
-      drawPrimitive: function() {
+      drawPrimitive: function() {     
         if (this.kind === PConstants.POINT) {
           p.point(this.params[0], this.params[1]);
-        } else if (this.kind === PConstants.LINE) {
+        } else if (this.kind === PConstants.LINE) {	
           if (this.params.length === 4) {  // 2D
             p.line(this.params[0], this.params[1],
                    this.params[2], this.params[3]);
@@ -4544,7 +4544,12 @@
               p.translate(x, y);
             }
           }
+
           shape.draw();
+          //set them back to what they were before
+          curRectMode = rcMode;
+          curEllipseMode = elMode;
+
           if ((arguments.length === 1 && curShapeMode === PConstants.CENTER ) || arguments.length > 1) {
             p.popMatrix();
           }
@@ -13251,6 +13256,7 @@
     */
     p.rectMode = function(aRectMode) {
       curRectMode = aRectMode;
+      rcMode = curRectMode;
     };
 
     /**
@@ -13298,6 +13304,10 @@
     */
     p.ellipseMode = function(aEllipseMode) {
       curEllipseMode = aEllipseMode;
+      //only set this it does not exist yet for the ellipse
+      if ( typeof elMode === 'undefined' ){
+        elMode = curEllipseMode; 
+      }
     };
 
     /**
@@ -16836,23 +16846,31 @@
         var xmlDoc;
 
         try {
-          xmlDoc = document.implementation.createDocument("", "", null);      
-          if ( xmlDoc.load ) {
-            xmlDoc.async = false;
-            xmlDoc.load(url);
-            parseSVGFont(xmlDoc.getElementsByTagName("svg")[0]);
-          }
-          else {
+          xmlDoc = document.implementation.createDocument("", "", null);
+        }
+        catch(e_fx_op) {
+          Processing.debug(e_fx_op.message);
+          return;
+        }
+
+        try {
+          xmlDoc.async = false;
+          xmlDoc.load(url);
+          parseSVGFont(xmlDoc.getElementsByTagName("svg")[0]);
+        }
+        catch(e_sf_ch) {
           // Google Chrome, Safari etc.
+          Processing.debug(e_sf_ch);
+          try {
             var xmlhttp = new window.XMLHttpRequest();
             xmlhttp.open("GET", url, false);
             xmlhttp.send(null);
             parseSVGFont(xmlhttp.responseXML.documentElement);
           }
+          catch(e) {
+            Processing.debug(e_sf_ch);
+          }
         }
-        catch(error) {
-          Processing.debug(error);
-        }  
       };
 
       // Create a new object in glyphTable to store this font
@@ -17277,11 +17295,6 @@
     //////////////////////////////////////////////////////////////////////////
     // Keyboard Events
     //////////////////////////////////////////////////////////////////////////
-
-    // Get the DOM element if string was passed
-    if (typeof curElement === "string") {
-      curElement = document.getElementById(curElement);
-    }
 
     // In order to catch key events in a canvas, it needs to be "specially focusable",
     // by assigning it a tabindex. If no tabindex is specified on-page, set this to 0.
