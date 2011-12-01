@@ -3026,7 +3026,6 @@
        * The drawPrimitive() function draws SVG document shape elements. These can be point, line, triangle, quad, rect, ellipse, arc, box, or sphere.
        */
       drawPrimitive: function() {
-        var elMode = curEllipseMode;
         if (this.kind === PConstants.POINT) {
           p.point(this.params[0], this.params[1]);
         } else if (this.kind === PConstants.LINE) {
@@ -3047,6 +3046,7 @@
                  this.params[4], this.params[5],
                  this.params[6], this.params[7]);
         } else if (this.kind === PConstants.RECT) {
+          var rcMode = curRectMode;
           if (this.image !== null) {
             p.imageMode(PConstants.CORNER);
             p.image(this.image,
@@ -3061,12 +3061,15 @@
                    this.params[2],
                    this.params[3]);
           }
+          curRectMode = rcMode;
         } else if (this.kind === PConstants.ELLIPSE) {
+          var elMode = curEllipseMode;
           p.ellipseMode(PConstants.CORNER);
           p.ellipse(this.params[0],
                     this.params[1],
                     this.params[2],
                     this.params[3]);
+          curEllipseMode = elMode;
         } else if (this.kind === PConstants.ARC) {
           p.ellipseMode(PConstants.CORNER);
           p.arc(this.params[0],
@@ -3084,7 +3087,6 @@
         } else if (this.kind === PConstants.SPHERE) {
           p.sphere(this.params[0]);
         }
-        curEllipseMode = elMode;
       },
       /**
        * @member PShape
@@ -4517,7 +4519,6 @@
      * @see shapeMode()
      */
     p.shape = function(shape, x, y, width, height) {
-      var rcMode = curRectMode;
       if (arguments.length >= 1 && arguments[0] !== null) {
         if (shape.isVisible()) {
           p.pushMatrix();
@@ -4553,7 +4554,6 @@
           }
         }
       }
-      curRectMode = rcMode;
     };
 
     /**
@@ -7961,7 +7961,7 @@
         doStroke = oldState.doStroke;
         currentStrokeColor = oldState.currentStrokeColor;
         curTint = oldState.curTint;
-        curRectMode = oldState.curRectmode;
+        curRectMode = oldState.curRectMode;
         curColorMode = oldState.curColorMode;
         colorModeX = oldState.colorModeX;
         colorModeZ = oldState.colorModeZ;
