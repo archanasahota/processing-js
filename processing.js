@@ -16835,24 +16835,18 @@
       var loadXML = function() {
         var xmlDoc;
 
-        try {
-          xmlDoc = document.implementation.createDocument("", "", null);      
-          if ( xmlDoc.load ) {
-            xmlDoc.async = false;
-            xmlDoc.load(url);
-            parseSVGFont(xmlDoc.getElementsByTagName("svg")[0]);
-          }
-          else {
-          // Google Chrome, Safari etc.
-            var xmlhttp = new window.XMLHttpRequest();
-            xmlhttp.open("GET", url, false);
-            xmlhttp.send(null);
-            parseSVGFont(xmlhttp.responseXML.documentElement);
-          }
+        xmlDoc = document.implementation.createDocument("", "", null);      
+        if ( xmlDoc.load ) {
+          xmlDoc.async = false;
+          xmlDoc.load(url);
+          parseSVGFont(xmlDoc.getElementsByTagName("svg")[0]);
+        } else {
+        // Google Chrome, Safari etc.
+          var xmlhttp = new window.XMLHttpRequest();
+          xmlhttp.open("GET", url, false);
+          xmlhttp.send(null);
+          parseSVGFont(xmlhttp.responseXML.documentElement);
         }
-        catch(error) {
-          Processing.debug(error);
-        }  
       };
 
       // Create a new object in glyphTable to store this font
