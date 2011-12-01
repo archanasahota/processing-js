@@ -16836,31 +16836,23 @@
         var xmlDoc;
 
         try {
-          xmlDoc = document.implementation.createDocument("", "", null);
-        }
-        catch(e_fx_op) {
-          Processing.debug(e_fx_op.message);
-          return;
-        }
-
-        try {
-          xmlDoc.async = false;
-          xmlDoc.load(url);
-          parseSVGFont(xmlDoc.getElementsByTagName("svg")[0]);
-        }
-        catch(e_sf_ch) {
+          xmlDoc = document.implementation.createDocument("", "", null);      
+          if ( xmlDoc.load ) {
+            xmlDoc.async = false;
+            xmlDoc.load(url);
+            parseSVGFont(xmlDoc.getElementsByTagName("svg")[0]);
+          }
+          else {
           // Google Chrome, Safari etc.
-          Processing.debug(e_sf_ch);
-          try {
             var xmlhttp = new window.XMLHttpRequest();
             xmlhttp.open("GET", url, false);
             xmlhttp.send(null);
             parseSVGFont(xmlhttp.responseXML.documentElement);
           }
-          catch(e) {
-            Processing.debug(e_sf_ch);
-          }
         }
+        catch(error) {
+          Processing.debug(error);
+        }  
       };
 
       // Create a new object in glyphTable to store this font
@@ -17285,6 +17277,11 @@
     //////////////////////////////////////////////////////////////////////////
     // Keyboard Events
     //////////////////////////////////////////////////////////////////////////
+
+    // Get the DOM element if string was passed
+    if (typeof curElement === "string") {
+      curElement = document.getElementById(curElement);
+    }
 
     // In order to catch key events in a canvas, it needs to be "specially focusable",
     // by assigning it a tabindex. If no tabindex is specified on-page, set this to 0.
