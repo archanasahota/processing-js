@@ -3026,6 +3026,7 @@
        * The drawPrimitive() function draws SVG document shape elements. These can be point, line, triangle, quad, rect, ellipse, arc, box, or sphere.
        */
       drawPrimitive: function() {
+        var elMode = curEllipseMode;
         if (this.kind === PConstants.POINT) {
           p.point(this.params[0], this.params[1]);
         } else if (this.kind === PConstants.LINE) {
@@ -3083,6 +3084,7 @@
         } else if (this.kind === PConstants.SPHERE) {
           p.sphere(this.params[0]);
         }
+        curEllipseMode = elMode;
       },
       /**
        * @member PShape
@@ -4515,6 +4517,7 @@
      * @see shapeMode()
      */
     p.shape = function(shape, x, y, width, height) {
+      var rcMode = curRectMode;
       if (arguments.length >= 1 && arguments[0] !== null) {
         if (shape.isVisible()) {
           p.pushMatrix();
@@ -4545,14 +4548,12 @@
             }
           }
           shape.draw();
-          //set the values back to what they were before
-          curRectMode = rcMode;
-          curEllipseMode = elMode;
           if ((arguments.length === 1 && curShapeMode === PConstants.CENTER ) || arguments.length > 1) {
             p.popMatrix();
           }
         }
       }
+      curRectMode = rcMode;
     };
 
     /**
@@ -13254,7 +13255,6 @@
     */
     p.rectMode = function(aRectMode) {
       curRectMode = aRectMode;
-      rcMode = curRectMode;
     };
 
     /**
@@ -13302,10 +13302,6 @@
     */
     p.ellipseMode = function(aEllipseMode) {
       curEllipseMode = aEllipseMode;
-      //only set this it does not exist yet for the ellipse
-      if ( typeof elMode === 'undefined' ){
-        elMode = curEllipseMode; 
-      }
     };
 
     /**
