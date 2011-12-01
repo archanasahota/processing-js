@@ -16833,15 +16833,13 @@
 
       // Load and parse Batik SVG font as XML into a Processing Glyph object
       var loadXML = function() {
-        var xmlDoc;
-
-        xmlDoc = document.implementation.createDocument("", "", null);      
-        if ( xmlDoc.load ) {
+        var xmlDoc = document.implementation.createDocument("", "", null);      
+        if (xmlDoc.load) {
           xmlDoc.async = false;
           xmlDoc.load(url);
           parseSVGFont(xmlDoc.getElementsByTagName("svg")[0]);
         } else {
-        // Google Chrome, Safari etc.
+          // Google Chrome, Safari etc.
           var xmlhttp = new window.XMLHttpRequest();
           xmlhttp.open("GET", url, false);
           xmlhttp.send(null);
