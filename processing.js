@@ -4999,7 +4999,7 @@
           return arguments[2];
         }
       },
-\      /**
+      /**
        * @member XMLElement
        * The getStringAttribute() function returns the string attribute of the element
        * If the <b>defaultValue</b> parameter is used and the attribute doesn't exist, the <b>defaultValue</b> value is returned.
@@ -5071,6 +5071,13 @@
         } else {
           return this.getAttribute(fullname,namespaceURI,defaultValue);
         }
+      },
+      /**
+       * Processing 1.5 XML API wrapper for the generic double
+       * attribute getter. This may only take one argument.
+       */
+      getDouble: function(attributeName) {
+        return this.getDoubleAttribute(attributeName);
       },
       /**
        * @member XMLElement
