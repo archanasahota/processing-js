@@ -4999,7 +4999,7 @@
           return arguments[2];
         }
       },
-      /**
+\      /**
        * @member XMLElement
        * The getStringAttribute() function returns the string attribute of the element
        * If the <b>defaultValue</b> parameter is used and the attribute doesn't exist, the <b>defaultValue</b> value is returned.
@@ -5052,6 +5052,25 @@
        */
       getFloat: function(attributeName) {
         return this.getFloatAttribute(attributeName);
+      },
+      /**
+       * @member XMLElement
+       * The getStringAttribute() function returns the string attribute of the element
+       * If the <b>defaultValue</b> parameter is used and the attribute doesn't exist, the <b>defaultValue</b> value is returned.
+       * When calling the function without the <b>defaultValue</b> parameter, if the attribute doesn't exist, the value 0 is returned.
+       *
+       * @param name         the name of the attribute
+       * @param defaultValue value returned if the attribute is not found
+       *
+       * @return {String} the value, or defaultValue if the attribute does not exist
+       */
+      getDoubleAttribute: function(fullname,namespaceURI,defaultValue) {
+        //If there is only one argument, the fullname, then get the attribute associated with it and parseFloat it
+        if (fullname && namespaceURI === undef && defaultValue === undef) {
+          return parseFloat(this.getAttribute(fullname));
+        } else {
+          return this.getAttribute(fullname,namespaceURI,defaultValue);
+        }
       },
       /**
        * @member XMLElement
